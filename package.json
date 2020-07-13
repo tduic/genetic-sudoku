@@ -1,5 +1,5 @@
 {
-  "name": "dots",
+  "name": "genetic-sudoku",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -10,10 +10,10 @@
     "build:react": "cross-env NODE_ENV=production webpack --progress -p",
     "build:node": "babel src -d build --config-file ./babel-node.config.js --copy-files",
     "build:all": "npm install && npm run build:react && npm run build:node",
-    "prod:start": "cross-env NODE_ENV=production NODE_PATH=./build pm2 start -i max build/server/server.js --update-env --name dotsProd",
-    "prod:stop": "pm2 stop dotsProd",
-    "prod:reload": "pm2 reload --update-env dotsProd",
-    "prod:logs": "pm2 logs --update-env dotsProd",
+    "prod:start": "cross-env NODE_ENV=production NODE_PATH=./build pm2 start -i max build/server/server.js --update-env --name genetic-sudokuProd",
+    "prod:stop": "pm2 stop genetic-sudokuProd",
+    "prod:reload": "pm2 reload --update-env genetic-sudokuProd",
+    "prod:logs": "pm2 logs --update-env genetic-sudokuProd",
     "test": "jest",
     "verify-tests": "jest --coverage"
   },
