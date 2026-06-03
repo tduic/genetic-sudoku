@@ -1,65 +1,46 @@
-# Links
+# genetic-sudoku
 
-A Spring Boot REST API implementing a simple "Links" chain game. Built as a Schonfeld take-home test.
+An early-stage full-stack JavaScript web app intended to solve Sudoku puzzles with a **genetic algorithm** and visualize the search in the browser.
 
-A `Chain` is an ordered list of `Link`s, where each link holds an integer value. The API lets you create a chain of a given size (with randomly assigned link values) and remove links from either end of the chain.
+> ⚠️ **Work in progress.** The project is currently a scaffold: the server, build pipeline, and client render path are wired up, but the genetic-algorithm solver itself is not implemented yet — `src/components/App.js` renders a `hello sudoku` placeholder.
 
-## Features
+## Stack
 
-- Initialize a chain with a configurable number of links, each assigned a random integer value (range -100 to 99).
-- Remove a link from either the left or right side of a chain.
-- Immutable domain modeled with Java `record` types (`Chain`, `Link`) and a `Side` enum.
+- **React 16** front end, server-side rendered
+- **Express** Node.js server with EJS view (`views/index.ejs`)
+- **[react-p5-wrapper](https://github.com/and-who/react-p5-wrapper)** (p5.js) for the planned canvas visualization
+- **Webpack** + **Babel** build, **Jest** tests, **PM2** for production
+- Scaffolded with [reactful](https://github.com/mvasin/reactful)
 
-## Tech Stack
-
-- **Java 17**
-- **Spring Boot 3.0.2** (`spring-boot-starter-web`, `spring-boot-starter-webflux`)
-- **Lombok** (logging via `@Slf4j`)
-- **Maven** (with the Maven Wrapper, `mvnw`)
-
-## Project Structure
+## Project layout
 
 ```
-src/main/java/com/duic/Links/
-├── LinksApplication.java                # Spring Boot entry point
-├── controller/LinksGameController.java  # REST endpoints
-├── service/LinksGame.java               # Game logic
-├── model/Chain.java                     # Chain of links (record)
-├── model/Link.java                      # Single link with an int value (record)
-└── domain/Side.java                     # LEFT / RIGHT enum
+src/
+├── components/      # React components (App.js — currently a placeholder)
+├── renderers/       # dom.js (client hydrate) + server.js (SSR)
+└── server/          # Express server + config
+views/index.ejs      # HTML shell
+public/              # static assets
 ```
 
-## API Endpoints
-
-| Method | Path                          | Description                                                                    |
-|--------|-------------------------------|--------------------------------------------------------------------------------|
-| GET    | `/initialize/{numberOfLinks}` | Create a new chain with the given number of randomly valued links.             |
-| GET    | `/remove/{chain}/{side}`      | Remove a link from the given chain on the specified side (`LEFT` or `RIGHT`).  |
-
-## How to Run
-
-Prerequisites: JDK 17.
+## Getting started
 
 ```bash
-# Run with the Maven Wrapper
-./mvnw spring-boot:run
-
-# Or build a jar and run it
-./mvnw clean package
-java -jar target/Links-0.0.1-SNAPSHOT.jar
+npm install
+npm start            # runs the Express server + webpack watcher concurrently
 ```
 
-The application starts on the default port `8080`.
-
-### Example
+Production build / run:
 
 ```bash
-# Create a chain with 5 links
-curl http://localhost:8080/initialize/5
+npm run build:all
+npm run prod:start   # serves via PM2
 ```
 
-## Tests
+Tests: `npm test`
 
-```bash
-./mvnw test
-```
+## Roadmap
+
+- Implement the genetic-algorithm Sudoku solver (population of candidate grids, fitness on row/column/box conflicts, selection + crossover + mutation across generations).
+- Render the solver's progress each generation with p5.js.
+- Add puzzle input/board UI.
